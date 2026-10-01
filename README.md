@@ -2,71 +2,69 @@
 
 **Website Security & Infrastructure Intelligence**
 
-Website Security Scanner turns the proven open-source [Web-Check](https://github.com/lissy93/web-check) scanner into a polished, portfolio-ready intelligence console. It preserves Web-Check's scanning architecture and adds a premium responsive interface plus browser-local scan baselines and field-level change detection.
-
-> Website Security Scanner does not claim authorship of Web-Check's scanning engine. The original project was created by Alicia Sykes and is used under the MIT License. See [UPSTREAM.md](./UPSTREAM.md).
-
-## Live Demo
-
-[Open Website Security Scanner](https://website-security-scanner-abhay-f807.vercel.app/check)
+Website Security Scanner is a focused intelligence console for understanding the public security posture and infrastructure of a website. It presents progressive results in a polished dashboard and lets you compare future scans against a browser-local baseline.
 
 ## Overview
 
-Enter a hostname and Website Security Scanner runs the existing Web-Check modules in parallel. Results arrive progressively and remain available in their full technical detail. Once a scan settles, it can be saved as a local baseline and compared with a future scan of the same target.
+Website Security Scanner analyzes websites across 40 security and infrastructure checks including DNS, DNSSEC, SSL/TLS, HTTP headers, redirects, technologies, domain information, networking, ports, threat signals and related website infrastructure data.
+
+Results appear as they arrive, so useful findings are available before the complete report finishes. The finished report remains fully inspectable, with technical values, expandable details and raw JSON export.
 
 ## Features
 
-- DNS, DNSSEC, nameserver, TXT and subdomain intelligence
-- SSL certificate, TLS connection, client compatibility and security audit results
-- HTTP headers, HSTS, cookies, redirects and HTTP security checks
-- Technology, server, port, firewall and network-route detection
-- WHOIS, registration, hosting location and domain metadata
-- Performance, status, Lighthouse, carbon and page-quality signals
-- Threat, blocklist, breach, vulnerability and security.txt checks
-- Progressive results, per-check retries, raw JSON export and technical documentation
-- Responsive glass interface with reduced-motion support
+- 40 website security and infrastructure checks
+- DNS and DNSSEC analysis
+- SSL/TLS certificate inspection
+- HTTP security header analysis
+- Domain and WHOIS information
+- Network and server information
+- Technology detection
+- Port information
+- Redirect analysis
+- Threat/security signals
+- Progressive scan results
+- Raw result export
+- Responsive glass dashboard with reduced-motion support
 
-Availability of individual upstream checks can depend on the target, network access, deployment limits, or optional upstream environment variables. Core operation does not require paid APIs.
+## Baseline & Change Detection
 
-## Scan Baselines & Change Detection
+- Save a scan locally in the browser
+- Compare later scans
+- Detect **Changed / Added / Removed / Unchanged** values
+- Field-level comparison of real result data
+- No login required
+- No database required
 
-After a scan settles, choose **Save as Baseline**. Website Security Scanner stores the resolved result-card data under a versioned key in the browser's `localStorage`. A later successful scan of the same target is compared field by field.
+Baseline snapshots are stored in browser `localStorage` under a versioned key for each normalized target. Array ordering is normalized to avoid false positives. Checks that fail or are skipped in a later run are excluded from removal reporting, so temporary service failures do not create misleading changes.
 
-The comparison UI reports:
+## Tech Stack
 
-- **Changed** primitive or structured fields with before and after values
-- **Added** fields and array entries
-- **Removed** fields and array entries
-- **Unchanged** result modules
-
-Array ordering is normalized to avoid false changes. Checks that fail or are skipped in the current run are excluded from comparison, so an unavailable endpoint is never incorrectly reported as removed data. **Reset Baseline** removes the saved snapshot. There is no login, database or baseline API.
+- React
+- TypeScript
+- Node.js
+- Astro
+- Vercel
+- Web Security APIs
+- Framer Motion
+- Sass and Emotion
+- Yarn
 
 ## Architecture
 
 ```mermaid
 flowchart TD
   Browser[Browser] --> UI[Website Security Scanner UI]
-  UI --> Engine[Web-Check scanning/check modules]
-  Engine --> Results[Aggregated infrastructure/security results]
-  Results --> Baseline[Local baseline comparison]
+  UI --> Jobs[Scan job coordinator]
+  Jobs --> API[API request layer]
+  API --> CatchAll[Deployment catch-all router]
+  CatchAll --> Checks[Existing security and infrastructure check handlers]
+  Checks --> Results[Progressive aggregated results]
+  Results --> Dashboard[Interactive result dashboard]
+  Dashboard --> Baseline[Field-level baseline comparison]
   Baseline --> Storage[(Browser localStorage)]
 ```
 
-The scanner stays in the existing Express/API module layer. Astro serves the application shell and content pages, while React drives scan jobs, progressive results, analysis and baseline comparison. Svelte remains in use for existing icon components.
-
-## Tech Stack
-
-- Astro 7
-- React 19 and React Router
-- Svelte 5
-- Express 5
-- TypeScript
-- Emotion and Sass
-- Framer Motion
-- Recharts and React Simple Maps
-- Puppeteer, Wappalyzer, Whoiser and the existing Web-Check check modules
-- Yarn 1
-- Vercel adapter and serverless API routes
+The browser hosts the interface, scan state and local baseline history. React handles job progress, result presentation and comparison interactions. The Node.js API layer invokes the existing check handlers. On Vercel, one deployment-only catch-all route forwards each public API path to the corresponding handler, keeping the deployment within the platform's function limits without duplicating scanner logic.
 
 ## Local Development
 
@@ -77,9 +75,18 @@ corepack yarn install --frozen-lockfile
 corepack yarn dev
 ```
 
-The interface runs at [http://localhost:4321/check](http://localhost:4321/check) and the local API runs at `http://localhost:3001/api`.
+The development interface runs at [http://localhost:4321/check](http://localhost:4321/check). The local API runs at `http://localhost:3001/api`.
 
-## Production Build
+To run the frontend and API separately:
+
+```bash
+corepack yarn dev:api
+corepack yarn dev:astro
+```
+
+## Build
+
+Run the application checks and standard production build:
 
 ```bash
 corepack yarn test
@@ -88,7 +95,7 @@ corepack yarn typecheck
 corepack yarn build
 ```
 
-To validate the Vercel target locally:
+Build specifically for Vercel with:
 
 ```bash
 PLATFORM=vercel corepack yarn build
@@ -96,30 +103,30 @@ PLATFORM=vercel corepack yarn build
 
 ## Deployment
 
-The repository retains Web-Check's lightweight architecture. For Vercel's function-count limit, a single deployment-only `api/[route].js` catch-all delegates requests to the unchanged scanner handlers in `scanner-api/`; it contains no scanning logic. No database, authentication service or separate backend deployment is required.
+The production deployment uses Vercel with the Astro Vercel adapter and the existing Node.js/API architecture. `vercel.json` configures one `api/[route].js` catch-all with a 45-second execution limit. That route only resolves the requested path and forwards it to the existing handler; it does not implement scanning logic.
+
+Deploy from the repository with:
 
 ```bash
 npx vercel --prod
 ```
 
-Canonical and OpenGraph metadata default to the production URL above. Set `SITE_URL` only when deploying under a different public URL. Optional upstream checks may use the environment variables documented in `.env.sample`; they are not required for the core scanner.
+The application requires no authentication service, database or paid API for core operation. Optional third-party credentials can be supplied through environment variables when additional checks need them.
 
-## My Contributions
+## Live Demo
 
-- Rebranded the product as Website Security Scanner with new navigation, logo, metadata, OpenGraph art and portfolio documentation
-- Designed and implemented the responsive glass-style homepage and result presentation
-- Built versioned local scan-baseline persistence without adding a backend or account system
-- Built the deterministic field-level change engine and its Changed / Added / Removed / Unchanged interface
-- Prevented transient failed checks from producing false removal alerts
-- Added baseline comparison and persistence tests
-- Added reduced-motion behavior, clearer focus states and mobile-specific layout refinements
+[https://website-security-scanner-abhay-f807.vercel.app/check](https://website-security-scanner-abhay-f807.vercel.app/check)
 
-## Upstream Attribution
+## GitHub
 
-Website Security Scanner is based on [Web-Check](https://github.com/lissy93/web-check), created by [Alicia Sykes](https://github.com/lissy93). The exact upstream revision used is:
+[https://github.com/abhayjavaregowda/website-security-scanner](https://github.com/abhayjavaregowda/website-security-scanner)
 
-```text
-daa935f174531e04811e99e554ed1ba90c9492cf
-```
+## Key Engineering Work
 
-The original MIT license is preserved in [LICENSE](./LICENSE), and full provenance is recorded in [UPSTREAM.md](./UPSTREAM.md).
+- Browser-local baseline persistence with versioned target storage
+- Deterministic field-level change detection
+- Comparison UI for Changed, Added, Removed and Unchanged values
+- Responsive dashboard redesign with accessible motion and mobile layouts
+- Progressive scan presentation as checks complete
+- Deployment-only Vercel catch-all routing adapter
+- Production deployment and public runtime verification
