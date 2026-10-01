@@ -109,15 +109,18 @@ const placeholders = [
     overflow: hidden;
     input {
       width: 100%;
-      padding: 1rem;
-      background: var(--background-50);
-      font-size: 2rem;
-      color: var(--text-color-secondary);
-      border: 2px solid var(--text-color);
-      border-radius: 3px;
+      min-height: 4rem;
+      padding: 1rem 1.15rem;
+      background: color-mix(in srgb, var(--background) 82%, transparent);
+      font-size: clamp(1rem, 2vw, 1.28rem);
+      color: var(--text-color);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.82rem;
       transition: all 0.3s ease-in-out;
       &:focus {
         border-color: var(--primary);
+        box-shadow: 0 0 0 4px var(--primary-transparent);
+        outline: none;
       }
     }
   }
@@ -130,7 +133,7 @@ const placeholders = [
     width: 100%;
     height: 100%;
     align-items: center;
-    padding-left: 16px;
+    padding-left: 1.15rem;
     pointer-events: none;
   }
 
@@ -138,7 +141,7 @@ const placeholders = [
   .placeholder {
     position: absolute;
     width: 100%;
-    font-size: 2rem;
+    font-size: clamp(1rem, 2vw, 1.28rem);
     color: var(--text-color-thirdly);
     padding: 0.1rem 0;
     user-select: none;
@@ -155,7 +158,7 @@ const placeholders = [
   }
 
   .placeholder {
-    padding-left: 4rem;
+    padding-left: 2.9rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

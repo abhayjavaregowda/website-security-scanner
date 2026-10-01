@@ -3,16 +3,14 @@ import PageLayout from '@layouts/Page.astro';
 import Footer from '@components/scafold/Footer.astro';
 import HomeBackground from '@components/homepage/HomeBackground';
 import ScanForm from '@components/form/ScanForm.astro';
-import SponsorCard from '@components/molecules/SponsorCard.astro';
+import Icon from '@components/molecules/Icon.svelte';
 import { normalizeAddress } from '../../client/utils/address-type-checker';
-import { isCategory } from '@/data/categories';
-import { checks, checkIds, isCheck } from '@/data/checks';
+import { categories, categoryIds, isCategory } from '@/data/categories';
+import { checkIds, checksInCategory, isCheck } from '@/data/checks';
 
 export const prerender = false;
 
 const { searchParams } = new URL(Astro.request.url);
-
-// Forward ?url= links, and their optional ?tool=, to the matching results page
 const searchUrl = normalizeAddress(searchParams.get('url') || '');
 const searchTool = searchParams.get('tool') || '';
 const toolPath = isCategory(searchTool) || isCheck(searchTool) ? searchTool : 'check';
@@ -21,92 +19,509 @@ const redirectPath = searchUrl && `/${toolPath}/${searchUrl}`;
 if (redirectPath) return Astro.redirect(redirectPath);
 ---
 
-<PageLayout>
-  <Fragment slot="nav"></Fragment>
+<PageLayout
+  title="Sentinel — Website Security & Infrastructure Intelligence"
+  description="Inspect the public security posture, DNS, TLS, headers, technology, network and domain intelligence of any website."
+>
   <div slot="background" class="background">
-    <HomeBackground client:only="react" opacity={0.25} />
+    <HomeBackground client:only="react" opacity={0.34} />
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
   </div>
-  <div class="home">
-    <h1><img src="/favicon.svg" alt="" width="48" height="48" />Web <em>Check</em></h1>
-    <ScanForm label="Enter a URL" showCategories />
-    <div>
-      <h2>Checks</h2>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="signal"><span></span> Passive intelligence console</div>
+    <div class="brand-mark" aria-hidden="true">
+      <img src="/favicon.svg" alt="" width="76" height="76" />
+    </div>
+    <h1 id="hero-title">Sentinel</h1>
+    <p class="tagline">Website Security &amp; Infrastructure Intelligence</p>
+    <p class="intro">
+      See a website the way the public internet sees it. One scan brings its security posture,
+      infrastructure, technology and domain signals into focus.
+    </p>
+    <div class="scan-shell">
+      <div class="scan-topline">
+        <span>Target URL</span>
+        <span class="encrypted">● Public data only</span>
+      </div>
+      <ScanForm label="Website to inspect" showCategories />
+    </div>
+    <div class="assurances" aria-label="Sentinel characteristics">
+      <span><i></i>No account</span>
+      <span><i></i>No paid APIs required</span>
+      <span><i></i>Local scan baselines</span>
+    </div>
+  </section>
+
+  <section class="coverage" aria-labelledby="coverage-title">
+    <div class="section-heading">
+      <div>
+        <p class="kicker">Signal coverage</p>
+        <h2 id="coverage-title">A complete external view</h2>
+      </div>
+      <p>
+        {checkIds.length} focused checks preserve Web-Check’s proven scanner while Sentinel adds a quieter,
+        clearer command surface.
+      </p>
+    </div>
+    <div class="category-grid">
+      {
+        categoryIds.map((id) => (
+          <a href={`/${id}`} class="category-card">
+            <span class="category-icon">
+              <Icon name={categories[id].icon} />
+            </span>
+            <span class="category-copy">
+              <strong>{categories[id].label}</strong>
+              <small>{checksInCategory(id).length} intelligence modules</small>
+            </span>
+            <span class="arrow" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        ))
+      }
+    </div>
+    <a class="all-checks" href="/checks">Explore all checks <span>→</span></a>
+  </section>
+
+  <section class="baseline-feature" aria-labelledby="baseline-title">
+    <div class="baseline-visual" aria-hidden="true">
+      <div class="baseline-card old">
+        <span>BASELINE</span><strong>Sep 24</strong><i></i><i></i><i></i>
+      </div>
+      <div class="baseline-card new">
+        <span>CURRENT</span><strong>Today</strong><i></i><i class="changed"></i><i></i>
+      </div>
+      <div class="delta">+ 3 changes</div>
+    </div>
+    <div class="feature-copy">
+      <p class="kicker">New in Sentinel</p>
+      <h2 id="baseline-title">Know what changed, not just what exists.</h2>
+      <p>
+        Save a scan as a browser-local baseline. On the next visit, Sentinel compares real DNS, TLS,
+        header, technology, redirect and security results field by field.
+      </p>
       <ul>
-        {
-          checkIds.map((id) => (
-            <li>
-              <a href={`/${id}`}>{checks[id].title}</a>
-            </li>
-          ))
-        }
+        <li>Changed, added, removed and unchanged values</li>
+        <li>Stored only in your browser</li>
+        <li>No login, backend or database</li>
       </ul>
     </div>
-    <SponsorCard />
-  </div>
+  </section>
+
   <Footer slot="footer" miniView />
 </PageLayout>
 
 <style lang="scss">
+  @use '@styles/global.scss' as *;
+
   .background {
     position: absolute;
     inset: 0 0 auto;
-    height: 100vh;
+    height: 105vh;
     overflow: hidden;
     z-index: -1;
     pointer-events: none;
   }
-
-  .home {
+  .ambient {
+    position: absolute;
+    width: min(42rem, 70vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: 0.13;
+  }
+  .ambient-a {
+    top: -18rem;
+    left: -16rem;
+    background: var(--primary);
+  }
+  .ambient-b {
+    top: -20rem;
+    right: -20rem;
+    background: var(--accent);
+  }
+  .hero {
+    min-height: min(44rem, calc(100vh - 7rem));
     display: flex;
     flex-direction: column;
-    gap: 4rem;
-
-    h1 {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin: 0;
-      font-size: clamp(2.25rem, 6vw, 3.5rem);
-      color: var(--primary);
-
-      img {
-        width: 1em;
-      }
-
-      em {
-        color: var(--text-color);
-      }
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: clamp(4rem, 10vh, 7rem) 0 5rem;
+  }
+  .signal,
+  .kicker {
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1.6rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--primary-transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--background-raised) 70%, transparent);
+    backdrop-filter: blur(14px);
+  }
+  .signal span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 14px var(--primary);
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+    border-radius: 1.6rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 28px 80px rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(18px);
+  }
+  .brand-mark img {
+    width: 4rem;
+    filter: drop-shadow(0 0 18px color-mix(in srgb, var(--primary) 32%, transparent));
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(4rem, 11vw, 7.7rem);
+    line-height: 0.9;
+    letter-spacing: -0.07em;
+    background: linear-gradient(110deg, #fff 20%, var(--primary) 68%, #c3cbff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .tagline {
+    margin: 1.2rem 0 0;
+    color: var(--text-color);
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    font-weight: 650;
+    letter-spacing: 0.015em;
+  }
+  .intro {
+    max-width: 46rem;
+    margin: 1rem auto 2rem;
+    color: var(--text-color-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  .scan-shell {
+    width: min(100%, 54rem);
+    padding: 0.65rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
+    border-radius: 1.25rem;
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+      color-mix(in srgb, var(--background-raised) 78%, transparent);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 32px 100px rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(20px);
+    text-align: left;
+  }
+  .scan-shell :global(.scan-form) {
+    max-width: none;
+    gap: 0;
+  }
+  .scan-shell :global(.scan-form > label) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .scan-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.2rem 0.45rem 0.7rem;
+    color: var(--text-color-thirdly);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .scan-topline .encrypted {
+    color: var(--primary);
+  }
+  .assurances {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem 1.25rem;
+    margin-top: 1.2rem;
+    color: var(--text-color-thirdly);
+    font-size: 0.82rem;
+  }
+  .assurances span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+  }
+  .assurances i {
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background: var(--primary);
+  }
+  .coverage,
+  .baseline-feature {
+    margin: 3rem 0 8rem;
+  }
+  .section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading h2,
+  .section-heading .kicker {
+    margin: 0;
+  }
+  .section-heading h2 {
+    margin-top: 0.6rem;
+    font-size: clamp(2rem, 4vw, 3.15rem);
+    letter-spacing: -0.045em;
+  }
+  .section-heading > p {
+    max-width: 36rem;
+    margin: 0;
+    color: var(--text-color-secondary);
+    line-height: 1.65;
+  }
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+  .category-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 6.4rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 1rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.009));
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.13);
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      background 180ms ease;
+  }
+  .category-card:hover,
+  .category-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--primary) 38%, transparent);
+    background: color-mix(in srgb, var(--primary) 5%, transparent);
+    text-decoration: none;
+  }
+  .category-icon {
+    display: grid;
+    place-items: center;
+    width: 2.65rem;
+    height: 2.65rem;
+    flex: none;
+    border-radius: 0.75rem;
+    color: var(--primary);
+    background: var(--primary-transparent);
+  }
+  .category-copy {
+    min-width: 0;
+  }
+  .category-copy strong,
+  .category-copy small {
+    display: block;
+  }
+  .category-copy strong {
+    color: var(--text-color);
+  }
+  .category-copy small {
+    margin-top: 0.32rem;
+    color: var(--text-color-thirdly);
+  }
+  .arrow {
+    margin-left: auto;
+    color: var(--text-color-thirdly);
+  }
+  .all-checks {
+    display: inline-flex;
+    gap: 0.5rem;
+    margin-top: 1.3rem;
+    color: var(--text-color-secondary);
+  }
+  .all-checks span {
+    color: var(--primary);
+  }
+  .baseline-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 1.5rem;
+    background:
+      radial-gradient(
+        circle at 15% 50%,
+        color-mix(in srgb, var(--primary) 9%, transparent),
+        transparent 42%
+      ),
+      linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.009));
+    overflow: hidden;
+  }
+  .baseline-visual {
+    position: relative;
+    min-height: 19rem;
+  }
+  .baseline-card {
+    position: absolute;
+    width: min(15rem, 68%);
+    padding: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--background-raised) 78%, transparent);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.33);
+    backdrop-filter: blur(18px);
+  }
+  .baseline-card span {
+    color: var(--text-color-thirdly);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+  .baseline-card strong {
+    display: block;
+    margin: 0.35rem 0 1rem;
+    font-size: 1.35rem;
+  }
+  .baseline-card i {
+    display: block;
+    height: 0.42rem;
+    margin-top: 0.5rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.09);
+  }
+  .baseline-card i:nth-of-type(2) {
+    width: 75%;
+  }
+  .baseline-card i:nth-of-type(3) {
+    width: 55%;
+  }
+  .baseline-card i.changed {
+    background: color-mix(in srgb, var(--primary) 65%, transparent);
+    box-shadow: 0 0 15px var(--primary-transparent);
+  }
+  .baseline-card.old {
+    top: 1rem;
+    left: 0;
+    opacity: 0.62;
+    transform: rotate(-4deg);
+  }
+  .baseline-card.new {
+    right: 0;
+    bottom: 1.4rem;
+    transform: rotate(3deg);
+  }
+  .delta {
+    position: absolute;
+    left: 42%;
+    bottom: 0;
+    z-index: 2;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--primary-transparent);
+    border-radius: 999px;
+    background: var(--background);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .feature-copy .kicker {
+    margin: 0;
+  }
+  .feature-copy h2 {
+    margin: 0.7rem 0 1rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.04;
+    letter-spacing: -0.05em;
+  }
+  .feature-copy > p:not(.kicker) {
+    color: var(--text-color-secondary);
+    line-height: 1.7;
+  }
+  .feature-copy ul {
+    display: grid;
+    gap: 0.7rem;
+    margin: 1.3rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .feature-copy li::before {
+    content: '✓';
+    margin-right: 0.65rem;
+    color: var(--primary);
+  }
+  @keyframes breathe {
+    50% {
+      opacity: 0.35;
+      transform: scale(0.72);
     }
+  }
 
-    h2 {
-      margin: 0 0 1rem;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--primary);
+  @include tablet-landscape-down {
+    .category-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    ul {
-      columns: 11rem;
-      column-gap: 2rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      line-height: 1.8;
-
-      li {
-        break-inside: avoid;
-      }
-
-      a {
-        color: var(--text-color-secondary);
-        transition: color 0.25s ease;
-
-        &:hover,
-        &:focus-visible {
-          color: var(--primary);
-        }
-      }
+    .baseline-feature {
+      grid-template-columns: 1fr;
+    }
+    .baseline-visual {
+      max-width: 32rem;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  @include tablet-portrait-down {
+    .section-heading {
+      display: block;
+    }
+    .section-heading > p {
+      margin-top: 1rem;
+    }
+  }
+  @include mobile-down {
+    .hero {
+      padding-top: 3.5rem;
+    }
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+    .coverage,
+    .baseline-feature {
+      margin-bottom: 5rem;
+    }
+    .scan-topline .encrypted {
+      display: none;
+    }
+    .baseline-feature {
+      padding: 1.2rem;
     }
   }
 </style>

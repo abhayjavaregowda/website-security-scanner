@@ -22,7 +22,7 @@ const Column = styled.div<{ gap: number }>`
 `;
 
 // Round-robin distribution so we keep each item's column position stable as new items append
-const ResultsMasonryGrid = ({ minColWidth, gap = 16, className, children }: Props): JSX.Element => {
+const ResultsMasonryGrid = ({ minColWidth, gap = 20, className, children }: Props): JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [columnCount, setColumnCount] = useState(1);
 

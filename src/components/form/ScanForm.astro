@@ -104,14 +104,14 @@ const { tool, label, buttonLabel = 'Analyze', showCategories = false } = Astro.p
     .toggle {
       flex: none;
       padding: 0 1rem;
-      border-left: 2px solid var(--text-color-thirdly);
+      border-left: 1px solid color-mix(in srgb, var(--background) 30%, transparent);
       anchor-name: --scan-categories;
 
       &:hover,
       &:focus,
       &:focus-visible {
-        background: var(--primary-transparent);
-        color: var(--primary);
+        background: rgba(0, 0, 0, 0.1);
+        color: var(--background);
       }
     }
 

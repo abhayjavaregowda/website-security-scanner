@@ -6,4 +6,8 @@ export const prerender = false;
 const { target } = Astro.params;
 ---
 
-<ResultsLayout title={`${target} | Web Check`} target={target} />
+<ResultsLayout
+  title={`${target} — Sentinel Intelligence Report`}
+  description={`Public security and infrastructure intelligence report for ${target}.`}
+  target={target}
+/>

@@ -1,12 +1,12 @@
 const colors = {
   primary: 'var(--primary)',
-  primaryLighter: '#cff97a',
+  primaryLighter: '#b8f3e7',
   textColor: 'var(--text-color)',
   textColorSecondary: 'var(--text-color-secondary)',
   background: 'var(--background)',
-  backgroundDarker: '#000000',
+  backgroundDarker: '#030807',
   backgroundLighter: 'var(--background-raised)',
-  bgShadowColor: '#101010',
+  bgShadowColor: '#030807',
   primaryTransparent: 'var(--primary-transparent)',
 
   // Action Colors

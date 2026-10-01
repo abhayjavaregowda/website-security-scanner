@@ -5,20 +5,22 @@
 <nav class="navbar">
   <div class="nav-left">
     <a href="/" class="logo-link" aria-label="Home">
-      <img width="64" src="/favicon.svg" alt="Site Logo" />
+      <img width="64" src="/favicon.svg" alt="" />
       <h2 class="site-title">
-        <span class="first">Web</span>
-        <span class="second">Check</span>
+        <span class="first">Sentinel</span>
+        <span class="edition">INTELLIGENCE</span>
       </h2>
     </a>
     <slot name="tool" />
   </div>
   <div class="nav-right">
     <slot>
-      <a href="/check" class="nav-link">Check</a>
-      <a href="/checks" class="nav-link">Docs</a>
+      <a href="/check" class="nav-link">Scan</a>
+      <a href="/checks" class="nav-link">Checks</a>
       <a href="/web-check-api" class="nav-link">API</a>
-      <a href="/account" class="nav-link">Login</a>
+      <a href="https://github.com/lissy93/web-check" class="nav-link upstream" target="_blank"
+        >Upstream ↗</a
+      >
     </slot>
   </div>
 </nav>
@@ -28,17 +30,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 0.65rem 0.8rem 0.65rem 1rem;
     flex-wrap: wrap;
-    background-color: var(--background);
+    background: color-mix(in srgb, var(--background-raised) 76%, transparent);
     color: var(--text-color);
     width: var(--page-width);
     margin: 0 auto;
-    border-radius: 2rem;
-    border: 1px solid var(--primary-transparent);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    border-radius: 1rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 16%, transparent);
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.26);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     .nav-left {
       display: flex;
       flex-wrap: wrap;
@@ -52,22 +54,29 @@
         color: var(--text-color);
 
         img {
-          width: 2rem;
+          width: 2.15rem;
           max-width: 64px;
           margin-right: 0.5rem;
         }
 
         .site-title {
           margin: 0;
-          font-weight: bold;
+          display: flex;
+          flex-direction: column;
+          font-weight: 750;
           color: var(--primary);
-          font-size: 1.8rem;
+          font-size: 1.16rem;
+          line-height: 1;
+          letter-spacing: -0.02em;
           .first {
             color: var(--primary);
           }
-          .second {
-            color: var(--text-color);
-            font-style: italic;
+          .edition {
+            margin-top: 0.22rem;
+            color: var(--text-color-thirdly);
+            font-size: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
           }
         }
       }
@@ -79,12 +88,15 @@
       .nav-link {
         text-decoration: none;
         color: var(--text-color);
-        margin-left: 1rem;
-        padding: 0.5rem;
+        margin-left: 0.25rem;
+        padding: 0.55rem 0.75rem;
+        border-radius: 0.6rem;
+        font-size: 0.9rem;
         transition: background-color 0.3s;
         position: relative;
         &:hover {
-          background-color: var(--primary-light);
+          background-color: var(--primary-transparent);
+          text-decoration: none;
         }
         &:focus {
           outline: none;
@@ -109,6 +121,22 @@
           width: 100%;
           left: 0;
         }
+
+        &.upstream {
+          border: 1px solid var(--primary-transparent);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .navbar {
+      .nav-right .nav-link {
+        padding-inline: 0.5rem;
+        font-size: 0.78rem;
+      }
+      .nav-right .upstream {
+        display: none;
       }
     }
   }

@@ -12,17 +12,16 @@ interface Props {
 
 // Default meta tag values
 const siteInfo = {
-  title: 'Web Check',
-  titleLong: 'Web Check - X-Ray Vision for any Website',
+  title: 'Sentinel',
+  titleLong: 'Sentinel — Website Security & Infrastructure Intelligence',
   description:
-    'Web Check is the all-in-one OSINT and security tool, for revealing the inner workings of any website',
+    'Sentinel reveals the public security posture, infrastructure, technology and domain signals of any website.',
   keywords:
-    'web check, OSINT, website security, security audit, DNS lookup, SSL check, ' +
+    'sentinel, web check, OSINT, website security, security audit, DNS lookup, SSL check, ' +
     'tech stack detection, website analyzer, web tools, open source',
-  themeColor: '#c1fb41',
-  author: 'Alicia Sykes',
-  twitter: '@Lissy_Sykes',
-  site: import.meta.env.SITE_URL || 'https://web-check.xyz',
+  themeColor: '#07100f',
+  author: 'Sentinel contributors; Web-Check by Alicia Sykes',
+  site: import.meta.env.SITE_URL || 'https://sentinel-xi-liart.vercel.app',
   analytics: {
     enable: import.meta.env.ENABLE_ANALYTICS,
     domain: 'web-check.as93.net',
@@ -37,9 +36,9 @@ const ogTitle = title ?? siteInfo.titleLong;
 const pageDescription = description ?? siteInfo.description;
 const pageKeywords = keywords ?? siteInfo.keywords;
 
-const { site, author, twitter, analytics, themeColor } = siteInfo;
+const { site, author, analytics, themeColor } = siteInfo;
 const canonical = new URL(Astro.url.pathname, site).href;
-const ogImage = `${site}/banner.png`;
+const ogImage = `${site}/sentinel-og.svg`;
 
 // Given a map of breadcrumbs, return the JSON-LD for the BreadcrumbList schema
 const makeBreadcrumbs = () => {
@@ -75,9 +74,6 @@ const makeBreadcrumbs = () => {
 
 <!-- Icons and colors -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/manifest.json" />
 
 <!-- Social media meta tags (Open Graphh + Twitter) -->
@@ -92,8 +88,6 @@ const makeBreadcrumbs = () => {
 <meta name="twitter:title" content={ogTitle} />
 <meta name="twitter:description" content={pageDescription} />
 <meta name="twitter:image" content={ogImage} />
-<meta name="twitter:site" content={twitter} />
-<meta name="twitter:creator" content={twitter} />
 
 <!-- Non-tracking hit counter -->
 {

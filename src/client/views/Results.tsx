@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, type ReactNode } from 'react';
 import { useParams } from 'react-router';
+import { motion, useReducedMotion } from 'framer-motion';
 import styled from '@emotion/styled';
 import { ToastContainer } from 'react-toastify';
 
@@ -18,6 +19,7 @@ import AdvisoryPanel from 'client/components/misc/AdvisoryPanel';
 import NoResults from 'client/components/misc/NoResults';
 import ResultsMasonryGrid from 'client/components/misc/ResultsMasonryGrid';
 import ViewRaw from 'client/components/misc/ViewRaw';
+import BaselinePanel from 'client/components/misc/BaselinePanel';
 
 import { determineAddressType, type AddressType } from 'client/utils/address-type-checker';
 import { hasData } from 'client/utils/result-processor';
@@ -31,12 +33,13 @@ import { runAnalysis } from 'client/analysis/registry';
 const ResultsOuter = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.35rem;
 `;
 
 const ResultsContent = styled.section`
   width: var(--page-width);
   margin: 0 auto;
+  padding-top: 0.25rem;
   @keyframes cardFlash {
     0%,
     30% {
@@ -69,6 +72,7 @@ const Results = (props: { address?: string }): JSX.Element => {
   const addressType: AddressType = useMemo(() => determineAddressType(address), [address]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<ReactNode>(<></>);
+  const reducedMotion = useReducedMotion();
 
   // Optional category or check in the path narrows the scan, unknown values fall back to everything
   const category = isCategory(tool) ? tool : undefined;
@@ -130,6 +134,16 @@ const Results = (props: { address?: string }): JSX.Element => {
 
   const cardsToShow = renderable.filter(({ data, entry }) => hasData(data) && !entry?.error);
 
+  // Baselines use the exact resolved data supplied to result cards. Failed and skipped checks are
+  // deliberately omitted, preventing an unavailable endpoint from being reported as a removal.
+  const baselineResults = Object.fromEntries(
+    renderable
+      .filter(({ entry }) => entry?.state === 'success')
+      .map(({ card, data }) => [card.id, data ?? null]),
+  );
+  const baselineTitles = Object.fromEntries(activeCards.map(({ card }) => [card.id, card.title]));
+  const scanSettled = loadingJobs.every((job) => job.state !== 'loading');
+
   const findings = useMemo(() => runAnalysis(jobsState), [jobsState]);
 
   // Detect a catastrophic API outage when the bulk of settled jobs error or time out
@@ -185,10 +199,22 @@ const Results = (props: { address?: string }): JSX.Element => {
       {!errorKind && (
         <>
           <AdvisoryPanel findings={findings} onJumpTo={jumpToCard} />
+          <BaselinePanel
+            target={address}
+            currentResults={baselineResults}
+            settled={scanSettled}
+            titles={baselineTitles}
+          />
           <ResultsContent>
             <ResultsMasonryGrid minColWidth={336}>
-              {cardsToShow.map(({ card, data }) => (
-                <div id={`card-${card.id}`} key={`eb-${card.id}`}>
+              {cardsToShow.map(({ card, data }, index) => (
+                <motion.div
+                  id={`card-${card.id}`}
+                  key={`eb-${card.id}`}
+                  initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: Math.min(index * 0.035, 0.35) }}
+                >
                   <ErrorBoundary title={card.title}>
                     <card.Component
                       key={card.id}
@@ -201,7 +227,7 @@ const Results = (props: { address?: string }): JSX.Element => {
                       )}
                     />
                   </ErrorBoundary>
-                </div>
+                </motion.div>
               ))}
             </ResultsMasonryGrid>
           </ResultsContent>

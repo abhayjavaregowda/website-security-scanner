@@ -15,7 +15,7 @@ const licenseText = 'MIT';
 const licenseLink = `${github}/blob/master/LICENSE`;
 
 const aboutLink = '/about';
-const projectName = 'Web Check';
+const projectName = 'Sentinel';
 
 const authorName = 'Alicia Sykes';
 const authorLink = 'https://aliciasykes.com';
@@ -56,7 +56,8 @@ const linkGroups = [
             {projectName}
           </a>
           <p>
-            The all-in-one OSINT and security tool, for revealing the inner workings of any website.
+            Website security and infrastructure intelligence, powered by the open-source Web-Check
+            scanning engine.
           </p>
         </div>
         <nav aria-label="Footer">
@@ -83,13 +84,13 @@ const linkGroups = [
   }
   <div class="bar">
     <p>
-      View source at <a href={github} target="_blank">{repo}</a>
+      Scanner engine from <a href={github} target="_blank">Web-Check</a>
     </p>
     <p>
-      <a href={aboutLink}>{projectName}</a>{' '}is licensed under{' '}
-      <a href={licenseLink} target="_blank">{licenseText}</a>{' '}- ©{' '}
-      <a href={authorLink} target="_blank">{authorName}</a>{' '}
-      {currentYear}
+      Original Web-Check by <a href={authorLink} target="_blank">{authorName}</a>, licensed under{
+        ' '
+      }
+      <a href={licenseLink} target="_blank">{licenseText}</a>. Sentinel modifications {currentYear}.
     </p>
   </div>
 </footer>
@@ -177,8 +178,9 @@ const linkGroups = [
     padding: 0.25rem 1rem;
     font-size: 0.85rem;
     line-height: 1.5;
-    background: var(--primary);
-    color: var(--background);
+    border-top: 1px solid var(--primary-transparent);
+    background: var(--background-raised);
+    color: var(--text-color-secondary);
     p {
       margin: 0;
     }

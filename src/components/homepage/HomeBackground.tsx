@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import styled from '@emotion/styled';
 
 // Global Animation Configuration Constants
@@ -21,7 +21,7 @@ const MeteorContainer = styled(motion.div)`
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background-color: #9fef00;
+  background-color: var(--primary);
   top: 1px;
 `;
 
@@ -31,7 +31,7 @@ const Tail = styled(motion.div)`
   left: 1px;
   width: 2px;
   height: 80px;
-  background: linear-gradient(to bottom, transparent, #9fef00);
+  background: linear-gradient(to bottom, transparent, var(--primary));
 `;
 
 const StyledSvg = styled.svg`
@@ -92,6 +92,7 @@ const generateInitialMeteors = (gridSizeX: number, gridSizeY: number) => {
 };
 
 const WebCheckHomeBackground = ({ opacity }: { opacity?: number }) => {
+  const reducedMotion = useReducedMotion();
   const [gridSizeX, setGridSizeX] = useState(Math.floor(window.innerWidth / dotSpacing));
   const [gridSizeY, setGridSizeY] = useState(Math.floor(window.innerHeight / dotSpacing));
   const [meteors, setMeteors] = useState(() => generateInitialMeteors(gridSizeX, gridSizeY));
@@ -149,39 +150,40 @@ const WebCheckHomeBackground = ({ opacity }: { opacity?: number }) => {
         <StyledRect fill="url(#dot-pattern)" />
       </StyledSvg>
 
-      {meteors.map(({ id, column, startRow, endRow, duration, tailVisible, animationStage }) => {
-        return (
-          <MeteorContainer
-            key={id}
-            initial={{
-              x: column * dotSpacing,
-              y: startRow * dotSpacing,
-              opacity: 1,
-            }}
-            animate={{
-              opacity: tailVisible ? 1 : 0,
-              y: animationStage === 'resetting' ? startRow * dotSpacing : endRow * dotSpacing,
-            }}
-            transition={{
-              duration: animationStage === 'resetting' ? 0 : duration,
-              ease: headEasing,
-            }}
-            onAnimationComplete={() => handleAnimationComplete(id)}
-          >
-            <Tail
-              initial={{ top: `-${tailLength}px`, height: `${tailLength}px` }}
+      {!reducedMotion &&
+        meteors.map(({ id, column, startRow, endRow, duration, tailVisible, animationStage }) => {
+          return (
+            <MeteorContainer
+              key={id}
+              initial={{
+                x: column * dotSpacing,
+                y: startRow * dotSpacing,
+                opacity: 1,
+              }}
               animate={{
-                top: tailVisible ? `-${tailLength}px` : 0,
-                height: tailVisible ? `${tailLength}px` : 0,
+                opacity: tailVisible ? 1 : 0,
+                y: animationStage === 'resetting' ? startRow * dotSpacing : endRow * dotSpacing,
               }}
               transition={{
-                duration: tailDuration,
-                ease: tailEasing,
+                duration: animationStage === 'resetting' ? 0 : duration,
+                ease: headEasing,
               }}
-            />
-          </MeteorContainer>
-        );
-      })}
+              onAnimationComplete={() => handleAnimationComplete(id)}
+            >
+              <Tail
+                initial={{ top: `-${tailLength}px`, height: `${tailLength}px` }}
+                animate={{
+                  top: tailVisible ? `-${tailLength}px` : 0,
+                  height: tailVisible ? `${tailLength}px` : 0,
+                }}
+                transition={{
+                  duration: tailDuration,
+                  ease: tailEasing,
+                }}
+              />
+            </MeteorContainer>
+          );
+        })}
     </div>
   );
 };

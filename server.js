@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 
-import { shouldSkip } from './api/_common/check-skipper.js';
+import { shouldSkip } from './scanner-api/_common/check-skipper.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -34,8 +34,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const port = process.env.PORT || 3000; // The port to run the server on
-const API_DIR = '/api'; // Name of the dir containing the lambda functions
-const dirPath = path.join(__dirname, API_DIR); // Path to the lambda functions dir
+const API_DIR = '/api'; // Public URL for the API
+const dirPath = path.join(__dirname, 'scanner-api'); // Shared check handler modules
 const guiPath = path.join(__dirname, 'dist', 'client');
 const placeholderFilePath = path.join(__dirname, 'public', 'placeholder.html');
 let notFoundFilePath = path.join(__dirname, 'public', 'error.html');
@@ -77,7 +77,7 @@ const limits = [
 const makeLimiterResponseMsg = (retryAfter) => {
   const why =
     'This keeps the service running smoothly for everyone. ' +
-    'You can get around these limits by running your own instance of Web Check.';
+    'You can get around these limits by running your own instance of Sentinel.';
   return `You've been rate-limited, please try again in ${retryAfter} seconds.\n${why}`;
 };
 
@@ -124,7 +124,7 @@ const renderPlaceholderPage = async (res, msgId, logs) => {
       'Server-side rendering failed to initiate, as SSR handler not found.<br />' +
       'This can be fixed by running <code>yarn build</code>, then restarting the server.<br />',
     disabledGui:
-      'Web-Check API is up and running!<br />Access the endpoints at ' +
+      'Sentinel API is up and running!<br />Access the endpoints at ' +
       `<a href="${API_DIR}"><code>${API_DIR}</code></a>`,
   };
   const logOutput = logs ? `<div class="logs"><code>${logs}</code></div>` : '';
@@ -242,10 +242,10 @@ const printMessage = () => {
       "     \\ \\/\\/ / -_) '_ \\___| (__| ' \\/ -_) _| / /\n" +
       '      \\_/\\_/\\___|_.__/    \\___|_||_\\___\\__|_\\_\\\n' +
       `\x1b[0m\n`,
-    `\x1b[1m\x1b[32m🚀 Web-Check is up and running at http://localhost:${port} \x1b[0m\n\n`,
+    `\x1b[1m\x1b[32m🚀 Sentinel is up and running at http://localhost:${port} \x1b[0m\n\n`,
     `\x1b[2m\x1b[36m🛟 For documentation and support, visit the GitHub repo: ` +
       `https://github.com/lissy93/web-check \n`,
-    `💖 Found Web-Check useful? Consider sponsoring us on GitHub ` +
+    `💖 Found the Web-Check engine useful? Consider sponsoring its author on GitHub ` +
       `to help fund maintenance & development.\x1b[0m`,
   );
 };
