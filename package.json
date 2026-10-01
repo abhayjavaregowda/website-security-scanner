@@ -1,8 +1,8 @@
 {
-  "name": "sentinel-web-intelligence",
+  "name": "website-security-scanner",
   "type": "module",
   "version": "2.2.8",
-  "homepage": "https://sentinel-xi-liart.vercel.app",
+  "homepage": "https://website-security-scanner-abhay-f807.vercel.app",
   "engines": {
     "node": ">=22.22.0"
   },

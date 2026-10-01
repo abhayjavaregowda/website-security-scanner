@@ -1,6 +1,6 @@
 {
-  "name": "Sentinel — Website Security & Infrastructure Intelligence",
-  "short_name": "Sentinel",
+  "name": "Website Security Scanner — Website Security & Infrastructure Intelligence",
+  "short_name": "Security Scanner",
   "description": "Public website security and infrastructure intelligence with local scan baselines.",
   "id": "/",
   "start_url": "/",

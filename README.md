@@ -1,18 +1,18 @@
-# Sentinel
+# Website Security Scanner
 
 **Website Security & Infrastructure Intelligence**
 
-Sentinel turns the proven open-source [Web-Check](https://github.com/lissy93/web-check) scanner into a polished, portfolio-ready intelligence console. It preserves Web-Check's scanning architecture and adds a premium responsive interface plus browser-local scan baselines and field-level change detection.
+Website Security Scanner turns the proven open-source [Web-Check](https://github.com/lissy93/web-check) scanner into a polished, portfolio-ready intelligence console. It preserves Web-Check's scanning architecture and adds a premium responsive interface plus browser-local scan baselines and field-level change detection.
 
-> Sentinel does not claim authorship of Web-Check's scanning engine. The original project was created by Alicia Sykes and is used under the MIT License. See [UPSTREAM.md](./UPSTREAM.md).
+> Website Security Scanner does not claim authorship of Web-Check's scanning engine. The original project was created by Alicia Sykes and is used under the MIT License. See [UPSTREAM.md](./UPSTREAM.md).
 
 ## Live Demo
 
-[Open Sentinel](https://sentinel-xi-liart.vercel.app/check)
+[Open Website Security Scanner](https://website-security-scanner-abhay-f807.vercel.app/check)
 
 ## Overview
 
-Enter a hostname and Sentinel runs the existing Web-Check modules in parallel. Results arrive progressively and remain available in their full technical detail. Once a scan settles, it can be saved as a local baseline and compared with a future scan of the same target.
+Enter a hostname and Website Security Scanner runs the existing Web-Check modules in parallel. Results arrive progressively and remain available in their full technical detail. Once a scan settles, it can be saved as a local baseline and compared with a future scan of the same target.
 
 ## Features
 
@@ -30,7 +30,7 @@ Availability of individual upstream checks can depend on the target, network acc
 
 ## Scan Baselines & Change Detection
 
-After a scan settles, choose **Save as Baseline**. Sentinel stores the resolved result-card data under a versioned key in the browser's `localStorage`. A later successful scan of the same target is compared field by field.
+After a scan settles, choose **Save as Baseline**. Website Security Scanner stores the resolved result-card data under a versioned key in the browser's `localStorage`. A later successful scan of the same target is compared field by field.
 
 The comparison UI reports:
 
@@ -45,7 +45,7 @@ Array ordering is normalized to avoid false changes. Checks that fail or are ski
 
 ```mermaid
 flowchart TD
-  Browser[Browser] --> UI[Sentinel UI]
+  Browser[Browser] --> UI[Website Security Scanner UI]
   UI --> Engine[Web-Check scanning/check modules]
   Engine --> Results[Aggregated infrastructure/security results]
   Results --> Baseline[Local baseline comparison]
@@ -106,7 +106,7 @@ Canonical and OpenGraph metadata default to the production URL above. Set `SITE_
 
 ## My Contributions
 
-- Rebranded the product as Sentinel with new navigation, logo, metadata, OpenGraph art and portfolio documentation
+- Rebranded the product as Website Security Scanner with new navigation, logo, metadata, OpenGraph art and portfolio documentation
 - Designed and implemented the responsive glass-style homepage and result presentation
 - Built versioned local scan-baseline persistence without adding a backend or account system
 - Built the deterministic field-level change engine and its Changed / Added / Removed / Unchanged interface
@@ -116,7 +116,7 @@ Canonical and OpenGraph metadata default to the production URL above. Set `SITE_
 
 ## Upstream Attribution
 
-Sentinel is based on [Web-Check](https://github.com/lissy93/web-check), created by [Alicia Sykes](https://github.com/lissy93). The exact upstream revision used is:
+Website Security Scanner is based on [Web-Check](https://github.com/lissy93/web-check), created by [Alicia Sykes](https://github.com/lissy93). The exact upstream revision used is:
 
 ```text
 daa935f174531e04811e99e554ed1ba90c9492cf

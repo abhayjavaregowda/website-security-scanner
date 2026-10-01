@@ -77,7 +77,7 @@ const limits = [
 const makeLimiterResponseMsg = (retryAfter) => {
   const why =
     'This keeps the service running smoothly for everyone. ' +
-    'You can get around these limits by running your own instance of Sentinel.';
+    'You can get around these limits by running your own instance of Website Security Scanner.';
   return `You've been rate-limited, please try again in ${retryAfter} seconds.\n${why}`;
 };
 
@@ -124,7 +124,7 @@ const renderPlaceholderPage = async (res, msgId, logs) => {
       'Server-side rendering failed to initiate, as SSR handler not found.<br />' +
       'This can be fixed by running <code>yarn build</code>, then restarting the server.<br />',
     disabledGui:
-      'Sentinel API is up and running!<br />Access the endpoints at ' +
+      'Website Security Scanner API is up and running!<br />Access the endpoints at ' +
       `<a href="${API_DIR}"><code>${API_DIR}</code></a>`,
   };
   const logOutput = logs ? `<div class="logs"><code>${logs}</code></div>` : '';
@@ -242,7 +242,7 @@ const printMessage = () => {
       "     \\ \\/\\/ / -_) '_ \\___| (__| ' \\/ -_) _| / /\n" +
       '      \\_/\\_/\\___|_.__/    \\___|_||_\\___\\__|_\\_\\\n' +
       `\x1b[0m\n`,
-    `\x1b[1m\x1b[32m🚀 Sentinel is up and running at http://localhost:${port} \x1b[0m\n\n`,
+    `\x1b[1m\x1b[32m🚀 Website Security Scanner is up and running at http://localhost:${port} \x1b[0m\n\n`,
     `\x1b[2m\x1b[36m🛟 For documentation and support, visit the GitHub repo: ` +
       `https://github.com/lissy93/web-check \n`,
     `💖 Found the Web-Check engine useful? Consider sponsoring its author on GitHub ` +

@@ -1,4 +1,5 @@
-export const checksIntro = 'Sentinel gathers the data. Interpreting it is still your job.';
+export const checksIntro =
+  'Website Security Scanner gathers the data. Interpreting it is still your job.';
 
 export const about = [
   'Web-Check gathers information about a website or host and puts it in one place. Give it a ' +

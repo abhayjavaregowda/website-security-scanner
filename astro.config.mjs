@@ -33,7 +33,7 @@ const deployTarget = unwrapEnvVar('PLATFORM', guessPlatform()).toLowerCase();
 const output = unwrapEnvVar('OUTPUT', 'static');
 
 // The FQDN of where the site is hosted (used for sitemaps & canonical URLs)
-const site = unwrapEnvVar('SITE_URL', 'https://sentinel-xi-liart.vercel.app');
+const site = unwrapEnvVar('SITE_URL', 'https://website-security-scanner-abhay-f807.vercel.app');
 
 // The base URL of the site (if serving from a subdirectory)
 const base = unwrapEnvVar('BASE_URL', '/');
@@ -76,7 +76,7 @@ const adapter = getAdapter(deployTarget);
 
 // Print build information to console
 console.log(
-  `\n\x1b[1m\x1b[35m Preparing to start build of Sentinel.... \x1b[0m\n`,
+  `\n\x1b[1m\x1b[35m Preparing to start build of Website Security Scanner.... \x1b[0m\n`,
   `\x1b[35m\x1b[2mCompiling for "${deployTarget}" using "${output}" mode, ` +
     `to deploy to "${site}" at "${base}"\x1b[0m\n`,
   `\x1b[2m\x1b[36mScanner engine: Web-Check by Alicia Sykes — ` +

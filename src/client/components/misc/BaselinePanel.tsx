@@ -321,7 +321,7 @@ const BaselinePanel = ({ target, currentResults, settled, titles }: Props): JSX.
       setBaseline(next);
       toast.success(baseline ? 'Baseline updated.' : 'Baseline saved locally.');
     } catch {
-      toast.error('Sentinel could not save a baseline in this browser.');
+      toast.error('Website Security Scanner could not save a baseline in this browser.');
     }
   };
 
@@ -331,7 +331,7 @@ const BaselinePanel = ({ target, currentResults, settled, titles }: Props): JSX.
       setBaseline(null);
       toast.info('Baseline reset.');
     } catch {
-      toast.error('Sentinel could not reset the baseline.');
+      toast.error('Website Security Scanner could not reset the baseline.');
     }
   };
 

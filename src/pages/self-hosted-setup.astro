@@ -6,7 +6,7 @@ const cardData = [
   {
     title: 'Deploy with Docker',
     description:
-      "Just one command, and you'll have your own Sentinel-compatible instance running on your server in minutes.",
+      "Just one command, and you'll have your own Website Security Scanner-compatible instance running on your server in minutes.",
     command: 'docker run -p 3000:3000 lissy93/web-check',
   },
   {
@@ -153,18 +153,19 @@ const configGroups: { title: string; description: string; options: ConfigOption[
 ---
 
 <PageLayout
-  title="Self-Hosted Setup | Sentinel"
-  description="Get started with running Sentinel locally or on your own server."
+  title="Self-Hosted Setup | Website Security Scanner"
+  description="Get started with running Website Security Scanner locally or on your own server."
 >
   <h1>Self-Hosted Setup</h1>
-  <p>Run a Sentinel-compatible scanner locally or on your own server.</p>
+  <p>Run a Website Security Scanner-compatible instance locally or on your own server.</p>
 
   <OptionCards cards={cardData} numbered />
 
   <section class="config">
     <h2>Configuration</h2>
     <p>
-      Sentinel runs without any configuration, so everything below is optional.<br />
+      Website Security Scanner runs without any configuration, so everything below is optional.<br
+      />
       Set values as environment variables, in <code>.env</code>, your host's dashboard, or with <code
         >docker run -e</code
       >.

@@ -361,8 +361,8 @@ const AdditionalResources = ({
         })}
       </ResourceListOuter>
       <Note>
-        These external tools are not affiliated with Sentinel. Please verify their availability,
-        terms and output before relying on them.
+        These external tools are not affiliated with Website Security Scanner. Please verify their
+        availability, terms and output before relying on them.
       </Note>
     </Card>
   );

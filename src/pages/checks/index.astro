@@ -8,24 +8,24 @@ import { categoryIds } from '@/data/categories';
 import { checksIntro } from '@/data/about';
 
 const description =
-  `Reference for all ${checkIds.length} Sentinel checks: what each one ` +
+  `Reference for all ${checkIds.length} Website Security Scanner checks: what each one ` +
   'looks at, why it matters, and the standards behind it.';
 ---
 
 <PageLayout
-  title="Every Sentinel Check, Explained | Sentinel"
+  title="Every Website Security Scanner Check, Explained | Website Security Scanner"
   description={description}
   keywords="website checks, osint reference, dns lookup, ssl check, http headers, seo audit"
   breadcrumbs={[
-    { name: 'Sentinel', item: '' },
+    { name: 'Website Security Scanner', item: '' },
     { name: 'Checks', item: 'checks' },
   ]}
 >
   <section class="intro">
     <h1>Every check, explained</h1>
     <p class="tagline">
-      Sentinel runs {checkIds.length} focused checks across {categoryIds.length} categories. Each one
-      is documented below: what it looks at, why it matters, and the standards behind it.
+      Website Security Scanner runs {checkIds.length} focused checks across {categoryIds.length} categories.
+      Each one is documented below: what it looks at, why it matters, and the standards behind it.
     </p>
     <p class="caveat">{checksIntro}</p>
     <ScanForm label="Enter a URL to run the full report" />

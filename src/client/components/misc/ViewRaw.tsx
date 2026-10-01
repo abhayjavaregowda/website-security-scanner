@@ -58,7 +58,7 @@ const ViewRaw = (props: { everything: { id: string; result: any }[] }) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        title: 'Sentinel results',
+        title: 'Website Security Scanner results',
         content: resultContent,
         readOnly: true,
         ttl: 3600,
@@ -77,7 +77,7 @@ const ViewRaw = (props: { everything: { id: string; result: any }[] }) => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'sentinel-results.json';
+    link.download = 'website-security-scanner-results.json';
     link.click();
     URL.revokeObjectURL(url);
   };

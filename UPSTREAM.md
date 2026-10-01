@@ -10,13 +10,13 @@
 
 The upstream license text and copyright notice are preserved without modification in [LICENSE](./LICENSE).
 
-## What Sentinel preserves
+## What Website Security Scanner preserves
 
-Sentinel retains the existing Web-Check scanner, API handlers, job orchestration and result components. This includes the upstream DNS, SSL/TLS, HTTP header, redirect, cookie, technology, security, performance, domain, network, port and server-related functionality available at the commit above.
+Website Security Scanner retains the existing Web-Check scanner, API handlers, job orchestration and result components. This includes the upstream DNS, SSL/TLS, HTTP header, redirect, cookie, technology, security, performance, domain, network, port and server-related functionality available at the commit above.
 
-## Major Sentinel modifications
+## Major Website Security Scanner modifications
 
-- Renamed the visible product and metadata to **Sentinel — Website Security & Infrastructure Intelligence**
+- Renamed the visible product and metadata to **Website Security Scanner — Website Security & Infrastructure Intelligence**
 - Added a new logo, OpenGraph treatment, navigation and responsive visual system
 - Redesigned the scan entry page and enhanced result-card presentation and transitions
 - Added browser-local scan baseline persistence
