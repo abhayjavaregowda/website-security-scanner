@@ -8,17 +8,8 @@ interface Props {
 
 const { miniView = false } = Astro.props;
 
-const repo = 'github.com/lissy93/web-check';
-const github = `https://${repo}`;
-
-const licenseText = 'MIT';
-const licenseLink = `${github}/blob/master/LICENSE`;
-
 const aboutLink = '/about';
 const projectName = 'Sentinel';
-
-const authorName = 'Alicia Sykes';
-const authorLink = 'https://aliciasykes.com';
 const currentYear = new Date().getFullYear();
 
 const linkGroups = [
@@ -36,12 +27,7 @@ const linkGroups = [
   },
   {
     title: 'Project',
-    links: [
-      { label: 'About', href: aboutLink },
-      { label: 'Source code', href: github },
-      { label: 'Report an issue', href: `${github}/issues` },
-      { label: 'Sponsor', href: 'https://github.com/sponsors/Lissy93' },
-    ],
+    links: [{ label: 'About', href: aboutLink }],
   },
 ];
 ---
@@ -55,10 +41,7 @@ const linkGroups = [
             <img src="/favicon.svg" alt="" width="28" height="28" />
             {projectName}
           </a>
-          <p>
-            Website security and infrastructure intelligence, powered by the open-source Web-Check
-            scanning engine.
-          </p>
+          <p>Website security and infrastructure intelligence in one focused workspace.</p>
         </div>
         <nav aria-label="Footer">
           {linkGroups.map((group) => (
@@ -83,15 +66,7 @@ const linkGroups = [
     )
   }
   <div class="bar">
-    <p>
-      Scanner engine from <a href={github} target="_blank">Web-Check</a>
-    </p>
-    <p>
-      Original Web-Check by <a href={authorLink} target="_blank">{authorName}</a>, licensed under{
-        ' '
-      }
-      <a href={licenseLink} target="_blank">{licenseText}</a>. Sentinel modifications {currentYear}.
-    </p>
+    <p>© {currentYear} Sentinel · Website Security &amp; Infrastructure Intelligence</p>
   </div>
 </footer>
 
@@ -172,7 +147,7 @@ const linkGroups = [
   }
   .bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 0.25rem 1rem;
     flex-wrap: wrap;
     padding: 0.25rem 1rem;

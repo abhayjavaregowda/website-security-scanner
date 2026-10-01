@@ -1,12 +1,8 @@
 ---
 import PageLayout from '@layouts/Page.astro';
-import { about, supportUs, fairUse, privacy, license } from '@/data/about';
+import { fairUse } from '@/data/about';
 import { checkIds } from '@/data/checks';
 
-const authorName = 'Alicia Sykes';
-const authorLink = 'https://aliciasykes.com';
-const repoLink = 'https://github.com/lissy93/web-check';
-const licenseLink = `${repoLink}/blob/master/LICENSE`;
 const elsewhere = [
   { title: `All ${checkIds.length} checks, explained`, link: '/checks' },
   { title: 'Run your own instance', link: '/self-hosted-setup' },
@@ -16,8 +12,8 @@ const elsewhere = [
 
 <PageLayout
   title="About | Sentinel"
-  description="How Sentinel extends Web-Check while preserving its open-source scanner and attribution."
-  keywords="web check, about, open source, mit license, fair use, privacy"
+  description="About Sentinel website security and infrastructure intelligence."
+  keywords="sentinel, website intelligence, security posture, infrastructure, privacy"
   breadcrumbs={[
     { name: 'Sentinel', item: '' },
     { name: 'About', item: 'about' },
@@ -26,15 +22,14 @@ const elsewhere = [
   <section class="intro">
     <h1>About Sentinel</h1>
     <p>
-      Sentinel is a product and interface redesign built on the open-source Web-Check project. It
-      adds local scan baselines, field-level change detection, and a new responsive visual system
-      without claiming or replacing the original scanning engine.
+      Sentinel brings a website's public security posture, infrastructure, technology and domain
+      signals into one focused intelligence report.
     </p>
-    <h2>Upstream scanner</h2>
-    {about.map((paragraph) => <p>{paragraph}</p>)}
+    <h2>Designed for repeatable investigation</h2>
     <p>
-      Web-Check was created and is maintained by <a href={authorLink}>{authorName}</a>. The original
-      source is available on <a href={repoLink}>GitHub</a>.
+      Run focused checks or a complete scan, inspect technical values as they arrive, and save a
+      browser-local baseline to see what changed on a later visit. No account or database is
+      required.
     </p>
     <ul class="elsewhere">
       {
@@ -48,11 +43,6 @@ const elsewhere = [
   </section>
 
   <section>
-    <h2>Support the project</h2>
-    {supportUs.map((paragraph) => <p set:html={paragraph} />)}
-  </section>
-
-  <section>
     <h2>Fair use</h2>
     <ul>
       {fairUse.map((rule) => <li>{rule}</li>)}
@@ -61,17 +51,10 @@ const elsewhere = [
 
   <section>
     <h2>Privacy</h2>
-    {privacy.map((paragraph) => <p>{paragraph}</p>)}
-  </section>
-
-  <section>
-    <h2>License</h2>
     <p>
-      Web-Check is distributed under the <a href={licenseLink}>MIT license</a>, © 2023{' '}
-      <a href={authorLink}>{authorName}</a>. It's free to use, modify and distribute in both
-      personal and commercial settings.
+      Scan baselines and comparison data remain in this browser's local storage. Sentinel requires
+      no account and sends no baseline history to a separate database.
     </p>
-    <pre>{license}</pre>
   </section>
 </PageLayout>
 

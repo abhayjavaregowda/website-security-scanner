@@ -1,19 +1,18 @@
 ---
 import PageLayout from '@layouts/Page.astro';
 import OptionCards from '@components/molecules/OptionCards.astro';
-import SponsorCard from '@components/molecules/SponsorCard.astro';
 
 const cardData = [
   {
     title: 'Deploy with Docker',
     description:
-      "Just one command, and you'll have your own Web Check instance running on your server in minutes.",
+      "Just one command, and you'll have your own Sentinel-compatible instance running on your server in minutes.",
     command: 'docker run -p 3000:3000 lissy93/web-check',
   },
   {
     title: '1-Click Deploy',
     description:
-      "Don't have a server? Not a problem! Deploy Web Check with one click on Vercel, Netlify, Render or Hostinger.",
+      "Don't have a server? Deploy a compatible instance with one click on Vercel, Netlify, Render or Hostinger.",
     buttons: [
       {
         name: 'Vercel',
@@ -46,7 +45,7 @@ const cardData = [
   },
   {
     title: 'Build from Source',
-    description: 'Want to customize Web Check? Clone the repository and deploy it on your server.',
+    description: 'Clone the scanner source and deploy a compatible instance on your own server.',
     buttons: [
       {
         name: 'GitHub',
@@ -158,7 +157,7 @@ const configGroups: { title: string; description: string; options: ConfigOption[
   description="Get started with running Sentinel locally or on your own server."
 >
   <h1>Self-Hosted Setup</h1>
-  <p>Run the Sentinel interface and its upstream Web-Check engine locally or on your server.</p>
+  <p>Run a Sentinel-compatible scanner locally or on your own server.</p>
 
   <OptionCards cards={cardData} numbered />
 
@@ -202,8 +201,6 @@ const configGroups: { title: string; description: string; options: ConfigOption[
       ))
     }
   </section>
-
-  <SponsorCard />
 </PageLayout>
 
 <style lang="scss">
