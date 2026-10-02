@@ -2,6 +2,8 @@
 
 **Website Security & Infrastructure Intelligence**
 
+![Website Security Scanner](docs/screenshots/homepage.png)
+
 Website Security Scanner is a focused intelligence console for understanding the public security posture and infrastructure of a website. It presents progressive results in a polished dashboard and lets you compare future scans against a browser-local baseline.
 
 ## Overview
@@ -25,6 +27,24 @@ Results appear as they arrive, so useful findings are available before the compl
 - Progressive scan results
 - Raw result export
 - Responsive glass dashboard with reduced-motion support
+
+### Scan Results & Baseline Tracking
+
+![Scan Results and Baseline Tracking](docs/screenshots/advisory-baseline.png)
+
+Scans surface issues, warnings, informational findings and passes, while browser-local baselines allow later scans to be compared.
+
+### Technical Intelligence Dashboard
+
+![Technical Intelligence Dashboard](docs/screenshots/technical-results.png)
+
+The dashboard brings together server location, SSL/TLS certificates, WHOIS and domain information, HTTP security, headers, DNS and related infrastructure signals.
+
+### Advanced Security & Infrastructure Checks
+
+![Advanced Security Modules](docs/screenshots/advanced-modules.png)
+
+Advanced modules cover DNSSEC, email security configuration, firewall/WAF detection, malware and phishing checks, data breaches, open ports and archive information.
 
 ## Baseline & Change Detection
 
